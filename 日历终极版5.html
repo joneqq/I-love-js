@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wrap {
+            width: 700px;
+            height: 700px;
+            margin: 0px auto;
+        }
+
+        .wrap .nian .year {
+            width: 200px;
+            height: 50px;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            margin: 0px auto;
+            float: left;
+        }
+
+        .wrap .nian button {
+            width: 40px;
+            height: 50px;
+            font-size: 30px;
+            float: left;
+            margin-left: 30px;
+            border-radius: 10px;
+        }
+
+        .wrap .yue .month {
+            width: 200px;
+            height: 50px;
+            font-size: 30px;
+            text-align: center;
+            line-height: 50px;
+            margin: 0px auto;
+            float: left;
+        }
+
+        .wrap .yue button {
+            width: 40px;
+            height: 50px;
+            font-size: 30px;
+            float: left;
+            border-radius: 10px;
+        }
+
+        .wrap .back {
+            width: 50px;
+            height: 50px;
+            font-size: 16px;
+            border-radius: 10px;
+            float: left;
+        }
+
+        .wrap .rili-head {
+            width: 100%;
+            height: 100px;
+        }
+
+        .wrap .rili-head .item {
+            width: 100px;
+            height: 100%;
+            line-height: 100px;
+            font-size: 30px;
+            font-weight: 700;
+            float: left;
+            text-align: center;
+        }
+
+        .wrap .rili-body {
+            width: 700px;
+            height: 600px;
+        }
+
+        .wrap .rili-body .kong {
+            width: 100px;
+            height: 100px;
+            float: left;
+        }
+
+        .wrap .rili-body .num {
+            width: 100px;
+            height: 100px;
+            font-size: 20px;
+            font-weight: 500px;
+            float: left;
+            text-align: center;
+            line-height: 100px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="nian">
+            <button type="button" class="gopreyear">
+                <<</button> <div class="year">
+                    2019
+        </div>
+        <button type="button" class="gonextyear">>></button>
+    </div>
+    <div class="yue">
+        <button type="button" class="gopremonth">
+            <<</button> <div class="month">
+                1
+    </div>
+    <button type="button" class="gonextmonth">>></button>
+    </div>
+    <button type="button" class="back">回到今天</button>
+    <div class="rili-head">
+        <div class="item">
+            日
+        </div>
+        <div class="item">
+            一
+        </div>
+        <div class="item">
+            二
+        </div>
+        <div class="item">
+            三
+        </div>
+        <div class="item">
+            四
+        </div>
+        <div class="item">
+            五
+        </div>
+        <div class="item">
+            六
+        </div>
+    </div>
+    <div class="rili-body">
+        <div class="kong">
+
+        </div>
+        <div class="num">
+            1
+        </div>
+        <div class="num">
+            2
+        </div>
+        <div class="num">
+            3
+        </div>
+        <div class="num">
+            4
+        </div>
+        <div class="num">
+            5
+        </div>
+        <div class="num">
+            6
+        </div>
+        <div class="num">
+            7
+        </div>
+        <div class="num">
+            8
+        </div>
+        <div class="num">
+            9
+        </div>
+        <div class="num">
+            10
+        </div>
+    </div>
+    </div>
+    <script>
+        var year = 2019
+        var month = 1
+        var days = 31
+        var theFirstDay = 3
+
+        var rilibody = document.getElementsByClassName('rili-body')[0]
+        var gopreyear = document.getElementsByClassName('gopreyear')[0]
+        var gonextyear = document.getElementsByClassName('gonextyear')[0]
+        var gopremonth = document.getElementsByClassName('gopremonth')[0]
+        var gonextmonth = document.getElementsByClassName('gonextmonth')[0]
+        var backtoday = document.getElementsByClassName('back')[0]
+        var nianfen = document.getElementsByClassName('year')[0]
+        var yuefen = document.getElementsByClassName('month')[0]
+        var today = new Date()
+        var isthismonth = true
+
+        var shijianList = [{
+            time: "2019-1-20 12:00:00",
+            content: "睡觉"
+        },
+        {
+            time: "2019-1-25 22:00:00",
+            content: "玩王者"
+        },
+        {
+            time: "2019-2-5 00:00:00",
+            content: "春节"
+        }
+        ]
+        var judeThing = function () {
+            var thisMonthThing = []
+            shijianList.forEach(function (item, index) {
+                var riqi = new Date(item.time)
+                if (year == riqi.getFullYear() && riqi.getMonth() + 1 == month) {
+                    isthismonth == true
+                    thisMonthThing.push({
+                        date: riqi.getDate(),
+                        content: item.content,
+                        month: riqi.getMonth()
+                    })
+                }
+            })
+            console.log(thisMonthThing)
+            return thisMonthThing
+        }
+        var saveThing = function () {
+            localStorage.setItem('event', JSON.stringify(shijianList))
+        }
+        var loadThing = function () {
+            shijianList = JSON.parse(localStorage.getItem('event'))
+            console.log(shijianList)
+            return shijianList
+        }
+
+        var getDays = function () {
+            if (month == 1 || month == 3 || month == 5 | month == 7 || month == 8 || month == 10 || month == 12) {
+                days = 31
+            } else if (month == 2) {
+                year % 4 == 0 ? days = 29 : days = 28
+            } else {
+                days = 30
+            }
+            return days
+        }
+
+        var week = function () {
+            var todayStr = ''
+            todayStr = year + '-' + month + '-' + '01'
+            var todayTime = new Date(todayStr)
+            theFirstDay = todayTime.getDay()
+            return theFirstDay
+        }
+        var tain = function () {
+            getDays()
+            week()
+           loadThing()
+           var thisThing = judeThing()
+            var str = "<div class='kong'></div>"
+            var tml = "<div class='num'>1</div>"
+            for (var i = 0; i < days; i++) {
+                str += tml.replace('1', i + 1)
+            }
+            rilibody.innerHTML = str
+            var num = document.getElementsByClassName('num')
+            for (var i = 0; i < num.length; i++) {
+                if (today.getFullYear() == year && today.getMonth() + 1 == month && today.getDate() == i + 1) {
+                    num[i].style.color = 'red'
+                }
+                for (var j = 0; j < thisThing.length; j++) {
+                    if (isthismonth == true && thisThing[j].date == i) {
+                        num[i - 1].innerHTML += thisThing[j].content
+                    }
+                }
+
+            }
+
+            var kong = document.getElementsByClassName('kong')[0]
+            kong.style.width = theFirstDay * 100 + 'px'
+            nianfen.innerHTML = year
+            yuefen.innerHTML = month
+        }
+        var goNextMonth = function () {
+            if (month == 12) {
+                month = 1
+                year++
+            } else {
+                month++
+            }
+            tain()
+        }
+        var goPreMonth = function () {
+            if (month == 1) {
+                month = 12
+                year--
+            } else {
+                month--
+            }
+            tain()
+        }
+        var goNextYear = function () {
+            year++
+            tain()
+            console.log(year, month)
+        }
+        var goPreYear = function () {
+            year--
+            tain()
+            console.log(year, month)
+        }
+        var backtoMonth = function () {
+            year = today.getFullYear()
+            month = today.getMonth() + 1
+            tain()
+        }
+        backtoday.addEventListener('click', backtoMonth)
+        gopreyear.addEventListener('click', goPreYear)
+        gonextyear.addEventListener('click', goNextYear)
+        gopremonth.addEventListener('click', goPreMonth)
+        gonextmonth.addEventListener('click', goNextMonth)
+        tain()
+
+        var addEvent = function () {
+            var event = prompt('输入事件')
+            var eventTime = prompt("请输入日期 格式为'2019-1-1 20:20:00'")
+            var ob= {
+                content: event,
+                time: eventTime
+            }
+           shijianList.push(ob)
+            saveThing()
+            tain()
+        }
+    </script>
+</body>
+</html>

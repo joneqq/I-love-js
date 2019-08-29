@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .table {
+            width: 400px;
+            height: 400px;
+            text-align: center;
+            font-size: 30px;
+            border: solid rgb(215, 215, 215) 1px;
+        }
+
+        .num {
+            background: rgb(224, 224, 224);
+        }
+
+        .set {
+            background-color: rgb(245, 146, 51);
+            color: white;
+        }
+
+        .other {
+            background-color: rgb(196, 181, 181);
+        }
+
+        .table .other:active,
+        .table .num:active,
+        .table .set:active  {
+            background-color: rgb(70, 77, 77);
+        }
+
+        .display {
+            width: 400px;
+            height: 200px;
+            background-color: #cccccc;
+        }
+
+        .line {
+            height: 100px;
+            line-height: 130px;
+            text-align: right;
+            font-size: 40px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #first {
+            letter-spacing: 10px;
+        }
+
+        #second {
+            font-size: 50px;
+        }
+
+        td {
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="display">
+            <div class="line" id="first">
+            </div>
+            <div class="line" id="second">
+                0
+            </div>
+        </div>
+        <div class="btns">
+            <table  class="table" border="">
+                <tr>
+                    <td class="other btn" id="AC">AC</td>
+                    <td class="other btn" id="fan">+/-</td>
+                    <td class="other btn" id="chubai">%</td>
+                    <td class="set btn" data-value="/">÷</td>
+                </tr>
+                <tr>
+                    <td class="num btn" data-value="7">7</td>
+                    <td class="num btn" data-value="8">8</td>
+                    <td class="num btn" data-value="9">9</td>
+                    <td class="set btn" data-value="*">x</td>
+                </tr>
+                <tr>
+                    <td class="num btn" data-value="4">4</td>
+                    <td class="num btn" data-value="5">5</td>
+                    <td class="num btn" data-value="6">6</td>
+                    <td class="set btn" data-value="-">-</td>
+                </tr>
+                <tr>
+                    <td class="num btn" data-value="1">1</td>
+                    <td class="num btn" data-value="2">2</td>
+                    <td class="num btn" data-value="3">3</td>
+                    <td class="set btn" data-value="+">+</td>
+                </tr>
+                <tr>
+                    <td class="other btn" data-value="←">←</td>
+                    <td class="num btn" data-value="0">0</td>
+                    <td class="num btn" data-value=".">.</td>
+                    <td class="set btn" data-value="=">=</td>
+                </tr>
+            </table>
+            <script>
+                var btn = document.getElementsByClassName('btn');
+                var first = document.getElementById('first');
+                var second = document.getElementById('second');
+                var ac = document.getElementById('AC');
+                var fan = document.getElementById('fan');
+                var chubai = document.getElementById('chubai');
+                var yunsuan = "";
+                var result = "";
+                var zhi = "";
+                var headClick = function (value) {
+                    if (value == null) {
+                        return;
+                    }
+                    else {
+                        if (value == "=") {
+                            result = eval(yunsuan);
+                            second.innerHTML = result;
+                            yunsuan = "";
+                        }
+                        else if (value == "←") {
+                            yunsuan = yunsuan.slice(0, yunsuan.length - 1)
+                            first.innerHTML = yunsuan;
+                        }
+                        else {
+                            yunsuan += value;
+                            zhi = yunsuan;
+                        }
+                    }
+                    first.innerHTML = yunsuan;
+                }
+                for (var i = 0; i < btn.length; i++) {
+                    btn[i].addEventListener('click', function () {
+                        var dataValue = this.getAttribute('data-value');
+                        headClick(dataValue);
+                    })
+                }
+                ac.addEventListener('click', function () {
+                    yunsuan = "";
+                    result = "";
+                    first.innerHTML = "";
+                    second.innerHTML = 0;
+                })
+                fan.addEventListener('click', function () {
+                    var fanshu = parseFloat(zhi);
+                    if (fanshu <= 0) {
+                        fanshu = Math.abs(fanshu);
+                    }
+                    else {
+                        fanshu = "-" + fanshu;
+                    }
+                    zhi = fanshu;
+                    second.innerHTML = fanshu;
+                })
+                chubai.addEventListener('click', function () {
+                    result = parseFloat(yunsuan) / 100;
+                    second.innerHTML = result;
+                })
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
