@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style >
+		ul {
+			list-style: none;
+		}
+
+		li {
+			border: 1px solid black;
+		}
+
+		span {
+			display: block;
+		}
+	</style>
+</head>
+
+<body>
+	<input id="title" />
+	<br />
+	<input id="content" />
+	<br />
+	<button id="btn" >发布</button>
+	<hr />
+	<ul id="ul1">
+	</ul>
+	<script>
+		var btn = document.getElementById('btn')
+		var title = document.getElementById('title')
+		var content = document.getElementById('content')
+		var ul = document.getElementById('ul1')
+		var tpl = '<li><span>date</span><h1>title</h1><p>content</p></li>'
+
+
+		var run = function () {
+			
+			if (localStorage.length != 0) {
+				var html = '';
+				var not = JSON.parse(localStorage.information)
+				for (var i = 0; i < not[0].length; i++) {
+					html += tpl.replace('date', not[0][i].now).replace('title', not[0][i].title).replace('content', not[0][i].content)
+				}
+				for (var i = 0; i < not.length; i++) {
+					html += tpl.replace('date', not[i].now).replace('title', not[i].title).replace('content', not[i].content)
+				}
+				ul.innerHTML = html
+			}
+		}
+
+		
+		btn.addEventListener('click', function () {
+			var noteList = [];
+			var now = new Date()
+			var t = title.value
+			var c = content.value
+			var note = {
+				title: t,
+				content: c,
+				now: now
+			}
+			if (localStorage.getItem('information')) {
+				noteList.push(JSON.parse(localStorage.getItem('information')))
+			}
+			if (note.title != "" && note.content != "") {
+				noteList.push(note);
+			}
+
+			var str = JSON.stringify(noteList);
+			localStorage.setItem('information', str)
+			run()
+			title.value = content.value = ""
+		})
+	</script>
+</body>
+
+</html>
